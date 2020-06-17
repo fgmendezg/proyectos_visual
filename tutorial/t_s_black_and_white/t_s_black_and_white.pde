@@ -3,39 +3,38 @@ PShape can;
 float angle;
 
 PShader bwShader;
+PShader bwShader_lum;
+
+PShader selShader;
 
 void setup() {
-  size(640, 360, P3D);
-  label = loadImage("flashr.jpg");
-  can = createCan(100, 200, 32, label);
+  //size(640, 360, P3D);
+  size(300, 300, P3D);
+  label = loadImage("chrome.jpeg");
+  can = createShape(RECT, 0, 0, 300, 300);
+  can.beginShape(RECT);
+  can.texture(label);
+  can.endShape();
+  
   bwShader = loadShader("texlightfrag.glsl");
+  bwShader_lum = loadShader("texlightfragluma.glsl");
+  
+  selShader = bwShader;
 }
 
 void draw() {
   background(0);
-  
-  shader(bwShader);
-    
-  translate(width/2, height/2);
-  rotateY(angle);
+  shader(selShader);
   shape(can);
-  angle += 0.01;
 }
-PShape createCan(float r, float h, int detail, PImage tex) {
-  textureMode(NORMAL);
-  PShape sh = createShape();
-  sh.beginShape(QUAD_STRIP);
-  sh.noStroke();
-  sh.texture(tex);
-  for (int i = 0; i <= detail; i++) {
-    float angle = TWO_PI / detail;
-    float x = sin(i * angle);
-    float z = cos(i * angle);
-    float u = float(i) / detail;
-    sh.normal(x, 0, z);
-    sh.vertex(x * r, -h/2, z * r, u, 0);
-    sh.vertex(x * r, +h/2, z * r, u, 1);
+
+void keyPressed() {
+  //RGB
+  if (key == '1') {
+    selShader = bwShader;
   }
-  sh.endShape();
-  return sh;
+  //LUMA
+  if (key == '2') {
+    selShader = bwShader_lum;
+  }
 }

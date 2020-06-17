@@ -33,7 +33,7 @@ void main() {
   vec4 col8 = texture2D(texture, tc8);
 
   //Edge detection
-  //vec4 sum = 8.0 * col4 - (col0 + col1 + col2 + col3 + col5 + col6 + col7 + col8);
+  vec4 sum = 8.0 * col4 - (col0 + col1 + col2 + col3 + col5 + col6 + col7 + col8);
   //vec4 sum = 4.0 * col4 + ( (0*col0) - col1 + (0*col2) - col3 - col5 + (0*col6) - col7 + (0*col8) );
   //vec4 sum = 0.0 * col4 + (col0 + (0*col1) - col2 + (0*col3) + (0*col5) - col6 + (0*col7) + col8);
   
@@ -44,7 +44,10 @@ void main() {
   //vec4 sum = 5.0 * col4 + ( (0*col0) - col1 + (0*col2) - col3 - col5 + (0*col6) - col7 + (0*col8) );
   
   //Box blur
-  vec4 sum = (col0 + col1 + col2 + col3 + col4 + col5 + col6 + col7 + col8)/9;
+  //vec4 sum = (col0 + col1 + col2 + col3 + col4 + col5 + col6 + col7 + col8)/9;
+  
+  //Gaussian blur 
+  //vec4 sum = (col0 + col1 + col2 + col3 + col4 + col5 + col6 + col7 + col8)/16;
   
   gl_FragColor = vec4(sum.rgb, 1.0) * vertColor;
 }
